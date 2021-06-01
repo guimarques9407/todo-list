@@ -36,6 +36,14 @@ function addItemToUi(e){
     }
  }
 
+ function clearItems(){
+    for (child of itemContainer.children){
+        if(child.classList.contains("item")){
+            child.remove();
+        } 
+    }
+ }
 //event listeners
 itemForm.addEventListener("submit",addItemToUi);
+clearList.addEventListener("click",clearItems)
 

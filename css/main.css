@@ -21,7 +21,6 @@ body {
 .form-control {
   border-color: var(--mainGreen) !important;
 }
-
 .feedback {
   display: none;
 }

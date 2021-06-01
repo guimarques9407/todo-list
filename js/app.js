@@ -19,25 +19,25 @@ function addItemToUi(e){
             <a href="#" class="complete-item mx-2 item-icon" title="checar item" ><i class="far fa-check-circle"></i></a>
             <a href="#" class="edit-item mx-2 item-icon" title="editar item"><i class="far fa-edit"></i></a>
             <a href="#" class="delete-item item-icon" title="excuir item"><i class="far fa-times-circle"></i></a>`)
-        itemContainer.appendChild(element)    
-        itemInput.value=""
-        items.push(element)
-        console.log(items)
+        element.addEventListener("click",chooseButton)    
+        itemContainer.appendChild(element);    
+        itemInput.value="";
+        items.push(element);
         };
 
 }
 
- function chooseButton(element,e){
-    let itemName=element.querySelector("h5")
-    if(e.target.classList.contains("fa-check-circle")){
+ function chooseButton(event){
+    let itemName=this.querySelector("h5")
+    if(event.target.classList.contains("fa-check-circle")){
         itemName.classList.toggle("completed");
     }
-    else if(e.target.classList.contains("fa-edit")){
+    else if(event.target.classList.contains("fa-edit")){
         itemInput.value=itemName.textContent;
-        itemContainer.removeChild(element);
+        itemContainer.removeChild(this);
     }
-    else if(e.target.classList.contains("fa-times-circle")){
-        itemContainer.removeChild(element);
+    else if(event.target.classList.contains("fa-times-circle")){
+        itemContainer.removeChild(this);
     }
  }
 
@@ -48,6 +48,7 @@ function addItemToUi(e){
         } 
     }
  }
+
 //event listeners
 itemForm.addEventListener("submit",addItemToUi);
 clearList.addEventListener("click",clearItems)

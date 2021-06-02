@@ -18,15 +18,14 @@ function addItemToUi(e){
             <div class="item-icons">
             <a href="#" class="complete-item mx-2 item-icon" title="checar item" ><i class="far fa-check-circle"></i></a>
             <a href="#" class="edit-item mx-2 item-icon" title="editar item"><i class="far fa-edit"></i></a>
-            <a href="#" class="delete-item item-icon" title="excuir item"><i class="far fa-times-circle"></i></a>`)
+            <a href="#" class="delete-item item-icon" title="excluir item"><i class="far fa-times-circle"></i></a>`)
         element.addEventListener("click",chooseButton)    
         itemContainer.appendChild(element);    
         itemInput.value="";
         items.push(element);
+        setToLocalStorage()
         };
-
 }
-
  function chooseButton(event){
     let itemName=this.querySelector("h5")
     if(event.target.classList.contains("fa-check-circle")){
@@ -37,6 +36,8 @@ function addItemToUi(e){
         itemContainer.removeChild(this);
     }
     else if(event.target.classList.contains("fa-times-circle")){
+        items.splice(items.indexOf(this),1)
+        console.log(items)
         itemContainer.removeChild(this);
     }
  }
@@ -49,7 +50,17 @@ function addItemToUi(e){
     }
  }
 
+ function setToLocalStorage(){
+    if(!!localStorage.getItem("items")){
+        localStorage.removeItem("items");
+    }
+    localStorage.setItem("items",JSON.stringify(items));
+ }
+ function getDataFromLocalStorage(){
+    let elements=JSON.parse(window.localStorage.getItem('items'));
+    console.log(elements)
+ }
 //event listeners
 itemForm.addEventListener("submit",addItemToUi);
 clearList.addEventListener("click",clearItems)
-
+getDataFromLocalStorage()

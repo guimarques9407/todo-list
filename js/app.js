@@ -1,8 +1,8 @@
 const itemForm=document.getElementById("itemForm");
 const itemInput=document.getElementById("itemInput");
 const clearList=document.getElementById("clear-list");
-const itemContainer=document.querySelector(".item-container");
 const feedback=document.querySelector(".feedback");
+const itemList=document.querySelector(".item-list");
 let items=[];
 
 function addItemToUi(e){
@@ -20,7 +20,7 @@ function addItemToUi(e){
             <a href="#" class="edit-item mx-2 item-icon" title="editar item"><i class="far fa-edit"></i></a>
             <a href="#" class="delete-item item-icon" title="excluir item"><i class="far fa-times-circle"></i></a>`)
         element.addEventListener("click",chooseButton)    
-        itemContainer.appendChild(element);    
+        itemList.appendChild(element);    
         itemInput.value="";
         items.push(element);
         setToLocalStorage()
@@ -33,24 +33,22 @@ function addItemToUi(e){
     }
     else if(event.target.classList.contains("fa-edit")){
         itemInput.value=itemName.textContent;
-        itemContainer.removeChild(this);
+        itemList.removeChild(this);
     }
     else if(event.target.classList.contains("fa-times-circle")){
-        items.splice(items.indexOf(this),1)
-        console.log(items)
-        itemContainer.removeChild(this);
+        let elementIndex=Array.from(itemList.children).indexOf(this)
+        items.splice(items.indexOf(elementIndex),1)
+        setToLocalStorage()
+        itemList.removeChild(this);
     }
  }
-
+//arrumar essa função,está deletando um por clique,tem que deletar todos
  function clearItems(){
-    for (let child of itemContainer.children){
-        if(child.classList.contains("item")){
-            child.remove();
-        } 
-    }
+    itemList.innerText=''
  }
 
  function setToLocalStorage(){
+     console.log(items)
     if(!!localStorage.getItem("items")){
         localStorage.removeItem("items");
     }

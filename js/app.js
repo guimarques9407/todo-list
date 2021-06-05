@@ -8,12 +8,17 @@ let items=[];
 function addItemToUi(e){
     e.preventDefault();
     if(itemInput.value.trim()==""||itemInput.value==""){
-        feedback.style.display="flex";
+        feedback.innerHTML = 'Please Enter Valid Value';
+        feedback.classList.add('showItem', 'alert-danger');
+        setTimeout(
+            function(){
+                feedback.classList.remove('showItem');
+                }, 3000);
     }
     else{
         let element=document.createElement("div");
         element.classList.add("item","my-3");
-        element.insertAdjacentHTML("afterBegin",
+        element.insertAdjacentHTML("beforeend",
             `<h5 class="item-name text-capitalize">${itemInput.value}</h5>
             <div class="item-icons">
             <a href="#" class="complete-item mx-2 item-icon" title="checar item" ><i class="far fa-check-circle"></i></a>
@@ -22,7 +27,7 @@ function addItemToUi(e){
         element.addEventListener("click",chooseButton)    
         itemList.appendChild(element);    
         itemInput.value="";
-        items.push(element);
+        items.push(itemInput.value);
         setToLocalStorage()
         };
 }
@@ -30,6 +35,7 @@ function addItemToUi(e){
     let itemName=this.querySelector("h5")
     if(event.target.classList.contains("fa-check-circle")){
         itemName.classList.toggle("completed");
+        event.target.classList.toggle('visibility');
     }
     else if(event.target.classList.contains("fa-edit")){
         itemInput.value=itemName.textContent;
@@ -42,21 +48,23 @@ function addItemToUi(e){
         itemList.removeChild(this);
     }
  }
-//arrumar essa função,está deletando um por clique,tem que deletar todos
+
  function clearItems(){
-    itemList.innerText=''
+    itemList.innerText='';
+    items=[];
+    setToLocalStorage()
  }
 
  function setToLocalStorage(){
-     console.log(items)
+    console.log(items)
     if(!!localStorage.getItem("items")){
         localStorage.removeItem("items");
     }
     localStorage.setItem("items",JSON.stringify(items));
  }
  function getDataFromLocalStorage(){
-    let elements=JSON.parse(window.localStorage.getItem('items'));
-    console.log(elements)
+    let elements=JSON.parse(localStorage.getItem('items'));
+    console.log(elements);
  }
 //event listeners
 itemForm.addEventListener("submit",addItemToUi);

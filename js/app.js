@@ -5,7 +5,7 @@ const feedback=document.querySelector(".feedback");
 const itemList=document.querySelector(".item-list");
 let items=[];
 
-function addItemToUi(e){
+function handleItem(e){
     e.preventDefault();
     if(itemInput.value.trim()==""||itemInput.value==""){
         feedback.innerHTML = 'Please Enter Valid Value';
@@ -16,21 +16,26 @@ function addItemToUi(e){
                 }, 3000);
     }
     else{
-        let element=document.createElement("div");
-        element.classList.add("item","my-3");
-        element.insertAdjacentHTML("beforeend",
-            `<h5 class="item-name text-capitalize">${itemInput.value}</h5>
-            <div class="item-icons">
-            <a href="#" class="complete-item mx-2 item-icon" title="checar item" ><i class="far fa-check-circle"></i></a>
-            <a href="#" class="edit-item mx-2 item-icon" title="editar item"><i class="far fa-edit"></i></a>
-            <a href="#" class="delete-item item-icon" title="excluir item"><i class="far fa-times-circle"></i></a>`)
-        element.addEventListener("click",chooseButton)    
-        itemList.appendChild(element);    
-        itemInput.value="";
-        items.push(itemInput.value);
-        setToLocalStorage()
-        };
+        addItemToUi(itemInput.value)
+    }
 }
+
+function addItemToUi(itemName){
+    let element=document.createElement("div");
+    element.classList.add("item","my-3");
+    element.insertAdjacentHTML("beforeend",
+        `<h5 class="item-name text-capitalize">${itemName}</h5>
+        <div class="item-icons">
+        <a href="#" class="complete-item mx-2 item-icon" title="checar item" ><i class="far fa-check-circle"></i></a>
+        <a href="#" class="edit-item mx-2 item-icon" title="editar item"><i class="far fa-edit"></i></a>
+        <a href="#" class="delete-item item-icon" title="excluir item"><i class="far fa-times-circle"></i></a>`)
+    element.addEventListener("click",chooseButton)    
+    itemList.appendChild(element);    
+    itemInput.value="";
+    items.push(itemName);
+    setToLocalStorage()
+    };
+
  function chooseButton(event){
     let itemName=this.querySelector("h5")
     if(event.target.classList.contains("fa-check-circle")){
@@ -63,10 +68,15 @@ function addItemToUi(e){
     localStorage.setItem("items",JSON.stringify(items));
  }
  function getDataFromLocalStorage(){
-    let elements=JSON.parse(localStorage.getItem('items'));
-    console.log(elements);
+    if ( localStorage.getItem('items')=== null){
+        return
+    }
+    else{
+        let itemsName=JSON.parse(localStorage.getItem('items'))
+        itemsName.forEach(item=>addItemToUi(item))
+    }
  }
 //event listeners
-itemForm.addEventListener("submit",addItemToUi);
+itemForm.addEventListener("submit",handleItem);
 clearList.addEventListener("click",clearItems)
 getDataFromLocalStorage()

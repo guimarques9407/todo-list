@@ -48,9 +48,8 @@ function addItemToUi(itemName){
     }
     else if(event.target.classList.contains("fa-times-circle")){
         let elementIndex=items.indexOf(itemName.textContent)
-        let excludedItem=items.splice(items.indexOf(elementIndex),1)
+        items.splice(items.indexOf(elementIndex),1)
         itemList.removeChild(this);
-        console.log(excludedItem)
         setToLocalStorage()
     }
  }

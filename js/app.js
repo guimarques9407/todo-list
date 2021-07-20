@@ -61,7 +61,6 @@ function addItemToUi(itemName){
  }
 
  function setToLocalStorage(){
-    console.log(items)
     if(!!localStorage.getItem("items")){
         localStorage.removeItem("items");
     }

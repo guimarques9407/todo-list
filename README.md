@@ -1,3 +1,3 @@
 # Todo List Project
 
-See on https://guimarques9407.github.io/todo-list/
+See the final project on  https://guimarques9407.github.io/todo-list/

@@ -35,7 +35,8 @@ function addItemToUi(itemName){
     items.push(itemName);
     setToLocalStorage()
     };
-
+    
+//Funçãoque está dando problema
  function chooseButton(event){
     let itemName=this.querySelector("h5")
     if(event.target.classList.contains("fa-check-circle")){
@@ -46,9 +47,13 @@ function addItemToUi(itemName){
         itemInput.value=itemName.textContent;
         itemList.removeChild(this);
     }
+    //ao clicar no botão de x essa parte do código está dando com bug
     else if(event.target.classList.contains("fa-times-circle")){
         let elementIndex=items.indexOf(itemName.textContent)
-        items.splice(items.indexOf(elementIndex),1)
+        console.log(elementIndex)//index do elemento que deve ser excluido
+        let excludedElement=items.splice(items.indexOf(elementIndex),1)
+        console.log(excludedElement)//elemento que foi excluido
+        console.log(items)//array de elementos depois da exclusão de um elemento
         itemList.removeChild(this);
         setToLocalStorage()
     }
